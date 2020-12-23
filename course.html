@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>添加课程</title>
+  </head>
+  <style>
+    .active {
+      background-color: #ddd;
+    }
+  </style>
+  <body>
+    <div id="app">
+      <input v-model="course" type="text" @keydown.enter="addCourse" />
+      <button @click="addCourse">新增课程</button>
+      <button @click="deleteCourse">删除全部</button>
+      <!-- 条件渲染 -->
+      <p v-if="courses.length===0">没有任何课程信息</p>
+      <div v-else>
+        <div
+          v-for="c in courses"
+          :key="c"
+          :class="{active:(selectCourse===c)}"
+          @click="selectCourse=c"
+        >
+          {{ c }}
+        </div>
+      </div>
+    </div>
+
+    <script src="./dist/vue.js"></script>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            selectCourse: "",
+            course: "",
+            courses: ["web全栈", "web高级"]
+          };
+        },
+        methods: {
+          addCourse() {
+            this.courses.push(this.course);
+            this.course = "";
+          },
+          deleteCourse() {
+            this.courses = [];
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
